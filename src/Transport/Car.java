@@ -1,20 +1,16 @@
+package Transport;
+
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Car {
-    private String brand;
-    private String model;
+public class Car extends Transport{
     private float engineVolume;
-    private String color;
-    private int year;
-    private String country;
     private String  transmission;
     private String carBody;
     private String registrationNumber;
     private int seatCount;
     private String rubberType;
-    private String defalt = "default";
     public class Key {
         private String remoteEngineAccess;
         private String keylessAccess;
@@ -88,37 +84,14 @@ public class Car {
         }
     }
 
-    public Car(String brand, String model, float engineVolume, String color, int year, String country, String transmission,
-               String carBody, String registrationNumber, int seatCount, String rubberType) {
-        if (brand == null || brand.isEmpty() || brand.isBlank())  {
-            this.brand = defalt;
-        } else {
-            this.brand = brand;
-        }
+    public Car(String brand, String model, float engineVolume, String color, int year, String country, String maxSpeed,
+               float fuelPercentage,  String fuelType, String transmission, String carBody, String registrationNumber, int seatCount,
+               String rubberType) {
+        super(brand, model, year, country, color,  maxSpeed, fuelPercentage, fuelType);
         if (Double.compare(engineVolume, 0) == 0) {
             this.engineVolume = 1.5f;
         } else {
             this.engineVolume = engineVolume;
-        }
-        if (model == null || model.isEmpty() || model.isBlank()) {
-            this.model = defalt;
-        } else {
-            this.model = model;
-        }
-        if (country == null || country.isEmpty() || country.isBlank()) {
-            this.country = defalt;
-        } else {
-            this.country = country;
-        }
-        if (color == null || color.isEmpty() || color.isBlank()) {
-            this.color = "белый";
-        } else {
-            this.color = color;
-        }
-        if (year <= 0) {
-            this.year = 2000;
-        } else {
-            this.year = year;
         }
         if (transmission == null || transmission.isBlank() || transmission.isEmpty()) {
             this.transmission = defalt;
@@ -147,19 +120,21 @@ public class Car {
         }
     }
 
-    public void showInfo() {
-        System.out.println(brand + " " + model + ", " + year + " год выпуска, сборка в "
-                + country + ", " + color + " цвет, объем двигателя — " + engineVolume + " л. Коробка передач - "
-                + transmission + ". Тип кузова - " + carBody  + ". Регистрационный номер - " + registrationNumber
-                + ". Количество мест - " + seatCount + ". Тип резины " + rubberType + ".");
+    public String showInfo() {
+        return  super.toString() + " объем двигателя — " + engineVolume + " л. Коробка передач - " + transmission
+                + ". Тип кузова - " + carBody  + ". Регистрационный номер - " + registrationNumber
+                + ". Количество мест - " + seatCount + ". Тип резины " + rubberType + ".";
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
+    @Override
+    public void refil() {
+        if (getFuelType() == "дизель" || getFuelType() == "бензин") {
+            System.out.println("Заправьте " + getFuelType() + " на заправке");
+            setFuelPercentage(100f);
+        } else {
+            System.out.println("Заправьте " + getFuelType() + " на электростанции");
+            setFuelPercentage(100f);
+        }
     }
 
     public float getEngineVolume() {
@@ -172,26 +147,6 @@ public class Car {
         } else {
             this.engineVolume = engineVolume;
         }
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        if (color == null || color.isEmpty() || color.isBlank()) {
-            this.color = "белый";
-        } else {
-            this.color = color;
-        }
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getCountry() {
-        return country;
     }
 
     public String getTransmission() {
